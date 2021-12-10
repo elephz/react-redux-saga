@@ -7,11 +7,20 @@ import reportWebVitals from './reportWebVitals';
 //Redux Begin
 import {Provider} from 'react-redux';
 import {createStore,applyMiddleware} from 'redux';
-import logger from 'redux-logger';
-import thunk from 'redux-thunk';
+// import thunk from 'redux-thunk';
 import reducers from './reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+//saga
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './saga';
+const sagaMiddleward = createSagaMiddleware()
+
 //Redux End
-const store = createStore(reducers,applyMiddleware(thunk,logger));
+const store = createStore(reducers,composeWithDevTools(applyMiddleware(sagaMiddleward)));
+
+sagaMiddleward.run(rootSaga)
+
 
 //thunk = ทำให้ค่าที่ส่งไปสามาถเป็นแบบ async ได้
 //logger แสดงค่าที่ผ่าน reducer ออกมาทาง console
